@@ -4,36 +4,39 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                echo 'Cloning repository...'
-                git 'https://github.com/LoicSIGAZA/JavaCalculator.git'
+                echo ' Cloning repository from GitHub...'
+                // Jenkins does this automatically when job is configured
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Running Maven clean and install to build the Java Calculator app...'
+                echo ' Running Maven build...'
                 bat 'mvn clean install'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running unit tests using Maven...'
+                echo ' Running unit tests...'
                 bat 'mvn test'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Simulating deployment: .jar file generated in target/ folder.'
+                echo ' Simulating deployment (JAR ready)'
+                // In real case, copy files or deploy to server
             }
         }
     }
 
     post {
         always {
-            echo 'Publishing test reports...'
+            echo ' Archiving test results...'
             junit '**/target/surefire-reports/*.xml'
         }
     }
+}
+
 }
