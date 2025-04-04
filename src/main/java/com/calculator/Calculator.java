@@ -2,7 +2,6 @@ package com.calculator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class Calculator extends JFrame {
     private JTextField num1Field, num2Field;
@@ -54,7 +53,8 @@ public class Calculator extends JFrame {
                         JOptionPane.showMessageDialog(this, "Cannot divide by zero!");
                         return;
                     }
-                    result = a / b; break;
+                    result = a / b;
+                    break;
             }
             resultLabel.setText("Result: " + result);
         } catch (NumberFormatException ex) {
@@ -63,9 +63,19 @@ public class Calculator extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Calculator calc = new Calculator();
-            calc.setVisible(true);
-        });
+        if (GraphicsEnvironment.isHeadless()) {
+            int a = 10;
+            int b = 5;
+            System.out.println("Running in headless mode (Docker)");
+            System.out.println("Addition: " + (a + b));
+            System.out.println("Subtraction: " + (a - b));
+            System.out.println("Multiplication: " + (a * b));
+            System.out.println("Division: " + ((b != 0) ? (a / b) : "Cannot divide by zero"));
+        } else {
+            SwingUtilities.invokeLater(() -> {
+                Calculator calc = new Calculator();
+                calc.setVisible(true);
+            });
+        }
     }
 }
